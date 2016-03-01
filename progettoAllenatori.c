@@ -21,10 +21,33 @@ struct Allenatore {
 	char nome[80];
 };
 
-void inserireNuovoSocio() {
-    int numeroTessera, annoIscrizione, ultimoAnnoPagamento, quotaVersata, codiceAllenatore;
-    printf("Inseri");
-    struct Socio membroPalestra = {};
+void inserireNuovoSocio(struct Socio f[]) {
+    //int numeroTessera, annoIscrizione, ultimoAnnoPagamento, quotaVersata, codiceAllenatore;
+    //char nome[80], cognome[80], luogoNascita[80], dataNascita[80], indirizzo[80];
+
+    printf("Inserisci numero tessera ");
+    scanf("%d", &f[0].numeroTessera);
+    printf("Inserisci anno iscrizione");
+    scanf("%d", &f[0].annoIscrizione);
+    printf("Inserisci ultimo anno pagamento ");
+    scanf("%d", &f[0].ultimoAnnoPagamento);
+    printf("Inserisci quota versata ");
+    scanf("%d", &f[0].quotaVersata);
+    printf("Inserisci codice dell' allenatore ");
+    scanf("%d", &f[0].codiceAllenatore);
+    printf("Inserisci nome ");
+    scanf("%s", &f[0].nome);
+    printf("Inserisci cognome ");
+    scanf("%s", &f[0].cognome);
+    printf("Inserisci luogo di nascita ");
+    scanf("%s", &f[0].luogoNascita);
+    printf("Inserisci data di nascita ");
+    scanf("%s", &f[0].dataNascita);
+    printf("Inserisci indirizzo ");
+    scanf("%s", &f[0].indirizzo);
+
+
+//    struct Socio membroPalestra = {numeroTessera, annoIscrizione, ultimoAnnoPagamento, quotaVersata, codiceAllenatore, nome, cognome, luogoNascita, dataNascita, indirizzo};
 }
 
 void mostraMenuSoci() {
@@ -72,6 +95,7 @@ void mostraMenu() {
 }
 
 int main() {
+    struct Socio S[100];
 	while (1) {
 		mostraMenu();
 	}
