@@ -9,6 +9,16 @@
 
 #include <stdio.h>
 
+int acquisisciNumeroCompresoTraValori(int inserimentoMinimoConsentito, int inserimentoMassimoConsentito) {
+    int inserimento;
+    scanf("%d", &inserimento);
+    while ((inserimento < inserimentoMinimoConsentito) || (inserimento > inserimentoMassimoConsentito)) {
+        printf("'%d' non e' un inserimento valido. Inserisci un valore compreso tra %d e %d: ", inserimento, inserimentoMinimoConsentito, inserimentoMassimoConsentito);
+        scanf("%d", &inserimento);
+    }
+    return inserimento;
+}
+
 int numeroSoci = 0;
 int numeroAllenatori = 0;
 
@@ -47,6 +57,15 @@ void visualizzaDatiSoci(struct Socio insiemeSoci[]) {
     }
 }
 
+void modificareDatiSocioConNomeCognome(struct Socio insiemeSoci[], int numeroSoci) {
+    char nome[100], cognome[100];
+    printf("Inserisci nome: ");
+    scanf("%s", nome);
+    printf("Inserisci cognome: ");
+    scanf("%s", cognome);
+    
+}
+
 // Paolo Valeri: Inserimento socio
 void inserireNuovoSocio(struct Socio insiemeSoci[]) {
     printf("Inserisci nome: ");
@@ -73,16 +92,37 @@ void inserireNuovoSocio(struct Socio insiemeSoci[]) {
 }
 
 // Cesare de Cal: Funzione main
+void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
+    printf("--------------------------------------------------------------------------------------\n");
+    printf("1. Stampare quanti sono i soci che hanno pagato nell'anno corrente e l'incasso totale.");
+    printf("2. Stampare il socio che ha pagato la quota minore.");
+    printf("--------------------------------------------------------------------------------------\n");
+    printf("Seleziona opzione menu: ");
+    int scelta = acquisisciNumeroCompresoTraValori(1, 7);
+    switch (scelta) {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        default:
+            break;
+    }
+}
+
+// Cesare de Cal: Funzione main
 void mostraMenuAllenatori(struct Allenatore insiemeAllenatori[]) {
     printf("---------------------------------------------------------------------------\n");
     printf("1. Inserire un nuovo allenatore\n");
     printf("2. Modificare i dati di un allenatore già presente inseriti nome e cognome\n");
     printf("3. Eliminare un allenatore inseriti nome e cognome\n");
     printf("4. Visualizzare i dati di tutti gli allenatori\n");
-    printf("----------------------------------------------------------------------------\n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Seleziona un'opzione del menu: ");
-    int scelta;
-    scanf("%d", &scelta);
+    int scelta = acquisisciNumeroCompresoTraValori(1, 4);
     switch (scelta) {
         case 1:
              break;
@@ -102,10 +142,9 @@ void mostraMenuSoci(struct Socio insiemeSoci[]) {
     printf("2. Modificare i dati di un socio gia' presente inseriti nome e cognome\n");
     printf("3. Eliminare un socio inseriti nome e cognome\n");
     printf("4. Visualizzare dati di tutti i soci\n");
-    printf("--------------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------\n");
     printf("Seleziona opzione menu: ");
-    int scelta;
-    scanf("%d", &scelta);
+    int scelta = acquisisciNumeroCompresoTraValori(1, 4);
     switch (scelta) {
         case 1:
             inserireNuovoSocio(insiemeSoci);
@@ -130,9 +169,8 @@ void mostraMenuPrincipale(struct Socio insiemeSoci[], struct Allenatore insiemeA
 	printf("3. Mostrare le statistiche\n");
     printf("----------------------------\n");
 	printf("Seleziona un'opzione del menu: ");
-	int scelta;
-	scanf("%d", &scelta);
-	switch (scelta) {
+    int scelta = acquisisciNumeroCompresoTraValori(1, 3);
+    switch (scelta) {
 		case 1:
 		    mostraMenuSoci(insiemeSoci);
 			break;
@@ -147,7 +185,6 @@ void mostraMenuPrincipale(struct Socio insiemeSoci[], struct Allenatore insiemeA
 }
 
 // Cesare de Cal: Funzione main
-
 int main() {
     struct Socio insiemeSoci[100];
     struct Allenatore insiemeAllenatori[100];
