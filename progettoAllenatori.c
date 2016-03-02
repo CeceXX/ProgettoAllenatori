@@ -1,3 +1,14 @@
+/*
+    Gruppo 1
+    Progetto Allenatori
+    Risorse: - Paolo Valeri
+             - Gianluca Tesi
+             - Elis Belletta
+             - Cesare de Cal
+    Consegnare entro:
+            - 3 aprile
+ */
+
 #include <stdio.h>
 
 struct Socio {
