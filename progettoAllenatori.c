@@ -9,6 +9,9 @@
 
 #include <stdio.h>
 
+int numeroSoci = 0;
+int numeroAllenatori = 0;
+
 // Gianluca Tesi: Creazione struct Soci
 struct Socio {
     char nome[80];
@@ -32,28 +35,41 @@ struct Allenatore {
 	char nome[80];
 };
 
+void visualizzaDatiSoci(struct Socio insiemeSoci[]) {
+    if (numeroSoci == 0) {
+        printf("Non ci sono soci da visualizzare.\n");
+        return;
+    }
+    printf("****************** Elenco Soci ******************\n");
+    for (int i = 0; i < numeroSoci; i++) {
+        printf("Nome: %s\nCognome: %s\nLuogo di nascita: %s\nData di nascita: %s\nIndirizzo: %s\nNumero tessera: %d\nAnno iscrizione: %d\nUltimo anno pagamento: %d\nQuota versata: %d\nCodice allenatore: %d\n", insiemeSoci[i].nome, insiemeSoci[i].cognome, insiemeSoci[i].luogoNascita, insiemeSoci[i].dataNascita, insiemeSoci[i].indirizzo, insiemeSoci[i].numeroTessera, insiemeSoci[i].annoIscrizione, insiemeSoci[i].ultimoAnnoPagamento, insiemeSoci[i].quotaVersata, insiemeSoci[i].codiceAllenatore);
+        printf("*************************************************\n");
+    }
+}
+
 // Paolo Valeri: Inserimento socio
-void inserireNuovoSocio(struct Socio f[]) {
-    printf("Inserisci nome:");
-    scanf("%s", f[0].nome);
+void inserireNuovoSocio(struct Socio insiemeSoci[]) {
+    printf("Inserisci nome: ");
+    scanf("%s", insiemeSoci[numeroSoci].nome);
     printf("Inserisci cognome: ");
-    scanf("%s", f[0].cognome);
+    scanf("%s", insiemeSoci[numeroSoci].cognome);
     printf("Inserisci luogo di nascita: ");
-    scanf("%s", f[0].luogoNascita);
+    scanf("%s", insiemeSoci[numeroSoci].luogoNascita);
     printf("Inserisci data di nascita: ");
-    scanf("%s", f[0].dataNascita);
+    scanf("%s", insiemeSoci[numeroSoci].dataNascita);
     printf("Inserisci indirizzo: ");
-    scanf("%s", f[0].indirizzo);
+    scanf("%s", insiemeSoci[numeroSoci].indirizzo);
     printf("Inserisci numero tessera: ");
-    scanf("%d", &f[0].numeroTessera);
+    scanf("%d", &insiemeSoci[numeroSoci].numeroTessera);
     printf("Inserisci anno iscrizione: ");
-    scanf("%d", &f[0].annoIscrizione);
+    scanf("%d", &insiemeSoci[numeroSoci].annoIscrizione);
     printf("Inserisci ultimo anno pagamento: ");
-    scanf("%d", &f[0].ultimoAnnoPagamento);
+    scanf("%d", &insiemeSoci[numeroSoci].ultimoAnnoPagamento);
     printf("Inserisci quota versata: ");
-    scanf("%d", &f[0].quotaVersata);
+    scanf("%d", &insiemeSoci[numeroSoci].quotaVersata);
     printf("Inserisci codice dell'allenatore: ");
-    scanf("%d", &f[0].codiceAllenatore);
+    scanf("%d", &insiemeSoci[numeroSoci].codiceAllenatore);
+    numeroSoci++;
 }
 
 // Cesare de Cal: Funzione main
@@ -98,6 +114,9 @@ void mostraMenuSoci(struct Socio insiemeSoci[]) {
             break;
         case 3:
             break;
+        case 4:
+            visualizzaDatiSoci(insiemeSoci);
+            break;
         default:
             break;
     }
@@ -128,9 +147,11 @@ void mostraMenuPrincipale(struct Socio insiemeSoci[], struct Allenatore insiemeA
 }
 
 // Cesare de Cal: Funzione main
+
 int main() {
     struct Socio insiemeSoci[100];
     struct Allenatore insiemeAllenatori[100];
+    
 	while (1) {
 		mostraMenuPrincipale(insiemeSoci, insiemeAllenatori);
 	}
