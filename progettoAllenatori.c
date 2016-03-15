@@ -107,21 +107,27 @@ void mostraMenuAllenatori(struct Allenatore insiemeAllenatori[]) {
 }
 
 // Paolo Valeri: Modifica Dati Soci
+int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[], char nome[], char cognome[]) {
+    int i;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (strcmp(nome, insiemeSoci[i].nome) && strcmp(cognome, insiemeSoci[i].cognome)) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 void modificareDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
     char nome[100], cognome[100];
     printf("Inserisci nome: ");
     scanf("%s", nome);
     printf("Inserisci cognome: ");
     scanf("%s", cognome);
-    int i, scelta;
-    for (i = 0; i < numeroMassimoSoci; i++) {
-        if (strcmp(nome, insiemeSoci[i].nome) && strcmp(cognome, insiemeSoci[i].cognome)) {
-            printf("ok ho trovato qualcuno!\n");
-            break;
-        }
-    }
+    int i = trovaPosizioneArraySocioConNomeCognome(insiemeSoci, nome, cognome);
     
-    if (i != numeroMassimoSoci) {
+    if (i != -1) {
+        printf("ho trovato un socio con quel nome e cognome alla posizione %d.\n", i);
+        int scelta;
         do {
             printf("---------------------------------------------------------------------------\n");
             printf("1. Nome\n");
@@ -137,6 +143,40 @@ void modificareDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
             printf("---------------------------------------------------------------------------\n");
             printf("Inserisci il numero dell'opzione vuoi modificare oppure termina digitando 11: ");
             scelta = acquisisciNumeroCompresoTraValori(1, 11);
+            switch (scelta) {
+                case 1:
+                    printf("Inserisci nome: ");
+                    scanf("%s", insiemeSoci[i].nome);
+                    break;
+                case 2:
+                    printf("Inserisci cognome: ");
+                    scanf("%s", insiemeSoci[i].cognome);
+                    break;
+                case 3:
+                    printf("Inserisci luogo di nascita: ");
+                    scanf("%s", insiemeSoci[i].luogoNascita);
+                    break;
+                case 4:
+                    scanf("%s", insiemeSoci[i].dataNascita);
+                    printf("Inserisci indirizzo: ");
+                case 5:
+                    scanf("%s", insiemeSoci[i].indirizzo);
+                    printf("Inserisci numero tessera: ");
+                case 6:
+                    scanf("%d", &insiemeSoci[i].numeroTessera);
+                    printf("Inserisci anno iscrizione: ");
+                case 7:
+                    scanf("%d", &insiemeSoci[i].annoIscrizione);
+                    printf("Inserisci ultimo anno pagamento: ");
+                case 8:
+                    scanf("%d", &insiemeSoci[i].ultimoAnnoPagamento);
+                    printf("Inserisci quota versata: ");
+                case 9:
+                    printf("Inserisci quota versata: ");
+                    scanf("%d", &insiemeSoci[i].quotaVersata);
+                default:
+                    break;
+            }
         } while (scelta != 11);
     } else {
         printf("Non ho trovato il socio con nome %s e cognome %s.\n", nome, cognome);
@@ -156,7 +196,7 @@ int trovaPosizioneArraySenzaSocio(struct Socio insiemeSoci[]) {
 
 void inserireNuovoSocio(struct Socio insiemeSoci[]) {
     int i = trovaPosizioneArraySenzaSocio(insiemeSoci);
-    if (i > -1) {
+    if (i != -1) {
         printf("Inserisci nome: ");
         scanf("%s", insiemeSoci[i].nome);
         printf("Inserisci cognome: ");
@@ -177,7 +217,7 @@ void inserireNuovoSocio(struct Socio insiemeSoci[]) {
         scanf("%d", &insiemeSoci[i].quotaVersata);
         insiemeSoci[i].codiceAllenatore = i;
     } else {
-        printf("Non c'e' sufficiente spazio per poter inserire un nuovo socio.\n");
+        printf("Non c'e' sufficiente spazio per poter inserire un nuovo socio. Considera eliminare un socio.\n");
     }
 }
 
