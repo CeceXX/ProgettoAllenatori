@@ -38,11 +38,11 @@ struct Socio {
 
 // Paolo Valeri: Creazione struct Allenatori
 struct Allenatore {
+    char cognome[80];
+    char nome[80];
 	int codiceAllenatore;
 	int pagaOraria;
 	int oreEffettuate;
-	char cognome[80];
-	char nome[80];
 };
 
 
@@ -52,9 +52,12 @@ void inserireNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
     scanf("%s", insiemeAllenatori[numeroAllenatori].nome);
     printf("Inserisci cognome: ");
     scanf("%s", insiemeAllenatori[numeroAllenatori].cognome);
-    printf("Inserisci luogo di nascita: ");
     printf("Inserisci codice dell'allenatore: ");
     scanf("%d", &insiemeAllenatori[numeroAllenatori].codiceAllenatore);
+    printf("Inserisci paga oraria: ");
+    scanf("%d", &insiemeAllenatori[numeroAllenatori].pagaOraria);
+    printf("Inserisci ore effettuate: ");
+    scanf("%d", &insiemeAllenatori[numeroAllenatori].oreEffettuate);
     numeroAllenatori++;
 }
 
@@ -139,6 +142,7 @@ void mostraMenuAllenatori(struct Allenatore insiemeAllenatori[]) {
     int scelta = acquisisciNumeroCompresoTraValori(1, 4);
     switch (scelta) {
         case 1:
+            inserireNuovoAllenatore(insiemeAllenatori);
              break;
         case 2:
             break;
