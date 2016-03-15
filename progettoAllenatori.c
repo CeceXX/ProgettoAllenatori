@@ -45,6 +45,31 @@ struct Allenatore {
 	char nome[80];
 };
 
+
+// Paolo Valeri: Inserimento allenatore
+void inserireNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
+    printf("Inserisci nome: ");
+    scanf("%s", insiemeAllenatori[numeroAllenatori].nome);
+    printf("Inserisci cognome: ");
+    scanf("%s", insiemeAllenatori[numeroAllenatori].cognome);
+    printf("Inserisci luogo di nascita: ");
+    scanf("%s", insiemeAllenatori[numeroAllenatori].luogoNascita);
+    printf("Inserisci data di nascita: ");
+    scanf("%s", insiemeAllenatori[numeroAllenatori].dataNascita);
+    printf("Inserisci indirizzo: ");
+    scanf("%s", insiemeAllenatori[numeroAllenatori].indirizzo);
+    printf("Inserisci numero tessera: ");
+    scanf("%d", &insiemeAllenatori[numeroAllenatori].numeroTessera);
+    printf("Inserisci anno iscrizione: ");
+    scanf("%d", &insiemeAllenatori[numeroAllenatori].annoIscrizione);
+    printf("Inserisci ultimo anno pagamento: ");
+    scanf("%d", &insiemeAllenatori[numeroAllenatori].ultimoAnnoPagamento);
+    printf("Inserisci codice dell'allenatore: ");
+    scanf("%d", &insiemeAllenatori[numeroAllenatori].codiceAllenatore);
+    numeroAllenatori++;
+}
+
+
 void visualizzaDatiSoci(struct Socio insiemeSoci[]) {
     if (numeroSoci == 0) {
         printf("Non ci sono soci da visualizzare.\n");
