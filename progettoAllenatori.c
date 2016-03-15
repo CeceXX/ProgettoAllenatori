@@ -53,17 +53,6 @@ void inserireNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
     printf("Inserisci cognome: ");
     scanf("%s", insiemeAllenatori[numeroAllenatori].cognome);
     printf("Inserisci luogo di nascita: ");
-    scanf("%s", insiemeAllenatori[numeroAllenatori].luogoNascita);
-    printf("Inserisci data di nascita: ");
-    scanf("%s", insiemeAllenatori[numeroAllenatori].dataNascita);
-    printf("Inserisci indirizzo: ");
-    scanf("%s", insiemeAllenatori[numeroAllenatori].indirizzo);
-    printf("Inserisci numero tessera: ");
-    scanf("%d", &insiemeAllenatori[numeroAllenatori].numeroTessera);
-    printf("Inserisci anno iscrizione: ");
-    scanf("%d", &insiemeAllenatori[numeroAllenatori].annoIscrizione);
-    printf("Inserisci ultimo anno pagamento: ");
-    scanf("%d", &insiemeAllenatori[numeroAllenatori].ultimoAnnoPagamento);
     printf("Inserisci codice dell'allenatore: ");
     scanf("%d", &insiemeAllenatori[numeroAllenatori].codiceAllenatore);
     numeroAllenatori++;
