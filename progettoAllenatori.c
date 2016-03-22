@@ -46,6 +46,19 @@ struct Allenatore {
 };
 
 ///// DA INTEGRARE
+//elis belletta anno soci
+int DatoUnAnnoIndividuaIscrizioneSoci(struct Socio insiemeSoci[]){
+int anno,i;
+printf("inserisci l'anno di cui vuoi cercare l'iscrizione dei soci: \n ");
+scanf("%d",&anno);
+for(i=0;i<numeroMassimoSoci;i++){
+    if(insiemeSoci[i].annoIscrizione==anno)
+    {
+        printf("il %d iscritto nell'anno %d si chiama %s",i+1,anno,insiemeSoci[i].nome);
+    }
+}}
+
+
 // Paolo Valeri: Inserimento allenatore
 void inserireNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
     int i = trovaPosizioneArraySenzaAllenatore(insiemeAllenatori);
