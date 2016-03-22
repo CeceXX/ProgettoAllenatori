@@ -16,7 +16,6 @@
 #include <string.h>
 #define numeroMassimoSoci 100
 #define numeroMassimoAllenatori 100
-#define clear() printf("\033[H\033[J")
 
 int acquisisciNumeroCompresoTraValori(int inserimentoMinimoConsentito, int inserimentoMassimoConsentito) {
     int inserimento;
@@ -104,17 +103,6 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
     }
 }
 
-// Paolo Valeri: Modifica Dati Soci
-int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[], char nome[], char cognome[]) {
-    int i;
-    for (i = 0; i < numeroMassimoSoci; i++) {
-        if (strcmp(nome, insiemeSoci[i].nome) && strcmp(cognome, insiemeSoci[i].cognome)) {
-            return i;
-        }
-    }
-    return -1;
-}
-
 // Paolo Valeri: Inserimento socio
 int trovaPosizioneArraySenzaSocio(struct Socio insiemeSoci[]) {
     int i;
@@ -176,6 +164,17 @@ void individuaSociDatoAnnoIscrizione(struct Socio insiemeSoci[]) {
 
 // Gianluca Tesi: Eliminazione socio
 // mancante
+
+// Paolo Valeri: Modifica Dati Soci
+int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[], char nome[], char cognome[]) {
+    int i;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (strcmp(nome, insiemeSoci[i].nome) && strcmp(cognome, insiemeSoci[i].cognome)) {
+            return i;
+        }
+    }
+    return -1;
+}
 
 void modificareDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
     char nome[100], cognome[100];
