@@ -45,6 +45,40 @@ struct Allenatore {
     int oreEffettuate;
 };
 
+///// DA INTEGRARE
+// Paolo Valeri: Inserimento allenatore
+void inserireNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
+    int i = trovaPosizioneArraySenzaAllenatore(insiemeAllenatori);
+    if (i != -1) {
+        printf("Inserisci nome: ");
+        scanf("%s", insiemeAllenatori[i].nome);
+        printf("Inserisci cognome: ");
+        scanf("%s", insiemeAllenatori[i].cognome);
+        printf("Inserisci codice dell'allenatore: ");
+        scanf("%d", &insiemeAllenatori[i].codiceAllenatore);
+        printf("Inserisci paga oraria: ");
+        scanf("%d", &insiemeAllenatori[i].pagaOraria);
+        printf("Inserisci ore effettuate: ");
+        scanf("%d", &insiemeAllenatori[i].oreEffettuate);
+        insiemeAllenatori[i].codiceAllenatore = i;
+    } else {
+        printf("Non c'e' sufficiente spazio per poter inserire un nuovo Allenatore. Considera eliminare un Allenatore.\n");
+    }
+}
+
+// Paolo Valeri: Inserimento Allenatore
+int trovaPosizioneArraySenzaAllenatore(struct Allenatore insiemeAllenatori[]) {
+    int i;
+    for (i = 0; i < numeroMassimoAllenatori; i++) {
+        if (insiemeAllenatori[i].codiceAllenatore == -1) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+//////
 
 // Paolo Valeri: Inserimento allenatore
 void inserireNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
