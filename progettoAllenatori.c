@@ -1,16 +1,22 @@
 /*
- Gruppo 1: Progetto Allenatori
- Risorse: - Paolo Valeri
+ Gruppo 1:
+ - Progetto Allenatori e Soci: structs
+ Risorse:
+ - Paolo Valeri
  - Gianluca Tesi
  - Elis Belletta
  - Cesare de Cal
- Consegnare entro: Domenica 3 Aprile 2016
+ Studio fattibilita:
+ - http://bit.do/studiofattibilita2
+ Consegnare entro:
+ - Domenica 3 Aprile 2016
  */
 
 #include <stdio.h>
 #include <string.h>
 #define numeroMassimoSoci 100
 #define numeroMassimoAllenatori 100
+#define clear() printf("\033[H\033[J")
 
 int acquisisciNumeroCompresoTraValori(int inserimentoMinimoConsentito, int inserimentoMassimoConsentito) {
     int inserimento;
@@ -45,22 +51,19 @@ struct Allenatore {
     int oreEffettuate;
 };
 
-///// DA INTEGRARE
-//elis belletta anno soci
-int DatoUnAnnoIndividuaIscrizioneSoci(struct Socio insiemeSoci[]){
-int anno,i;
-printf("inserisci l'anno di cui vuoi cercare l'iscrizione dei soci: \n ");
-scanf("%d",&anno);
-for(i=0;i<numeroMassimoSoci;i++){
-    if(insiemeSoci[i].annoIscrizione==anno)
-    {
-        printf("il %d iscritto nell'anno %d si chiama %s",i+1,anno,insiemeSoci[i].nome);
+// Paolo Valeri: Inserimento Allenatore
+int trovaPosizioneArraySenzaAllenatore(struct Allenatore insiemeAllenatori[]) {
+    int i;
+    for (i = 0; i < numeroMassimoAllenatori; i++) {
+        if (insiemeAllenatori[i].codiceAllenatore == -1) {
+            return i;
+        }
     }
-}}
-
+    return -1;
+}
 
 // Paolo Valeri: Inserimento allenatore
-void inserireNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
+void inserisciNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
     int i = trovaPosizioneArraySenzaAllenatore(insiemeAllenatori);
     if (i != -1) {
         printf("Inserisci nome: ");
@@ -77,35 +80,6 @@ void inserireNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
     } else {
         printf("Non c'e' sufficiente spazio per poter inserire un nuovo Allenatore. Considera eliminare un Allenatore.\n");
     }
-}
-
-// Paolo Valeri: Inserimento Allenatore
-int trovaPosizioneArraySenzaAllenatore(struct Allenatore insiemeAllenatori[]) {
-    int i;
-    for (i = 0; i < numeroMassimoAllenatori; i++) {
-        if (insiemeAllenatori[i].codiceAllenatore == -1) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-
-//////
-
-// Paolo Valeri: Inserimento allenatore
-void inserireNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
-    printf("Inserisci nome: ");
-    //    scanf("%s", insiemeAllenatori[numeroAllenatori].nome);
-    //    printf("Inserisci cognome: ");
-    //    scanf("%s", insiemeAllenatori[numeroAllenatori].cognome);
-    //    printf("Inserisci codice dell'allenatore: ");
-    //    scanf("%d", &insiemeAllenatori[numeroAllenatori].codiceAllenatore);
-    //    printf("Inserisci paga oraria: ");
-    //    scanf("%d", &insiemeAllenatori[numeroAllenatori].pagaOraria);
-    //    printf("Inserisci ore effettuate: ");
-    //    scanf("%d", &insiemeAllenatori[numeroAllenatori].oreEffettuate);
-    //    numeroAllenatori++;
 }
 
 // Cesare de Cal: Funzione main
@@ -130,6 +104,37 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
     }
 }
 
+// Paolo Valeri: Modifica Dati Soci
+int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[], char nome[], char cognome[]) {
+    int i;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (strcmp(nome, insiemeSoci[i].nome) && strcmp(cognome, insiemeSoci[i].cognome)) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Paolo Valeri: Inserimento socio
+int trovaPosizioneArraySenzaSocio(struct Socio insiemeSoci[]) {
+    int i;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (insiemeSoci[i].codiceAllenatore == -1) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void visualizzaDatiSoci(struct Socio insiemeSoci[]) {
+    int i;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (insiemeSoci[i].codiceAllenatore != -1) {
+            printf("Nome: %s\nCognome: %s\nLuogo di nascita: %s\nData di nascita: %s\nIndirizzo: %s\nNumero tessera: %d\nAnno iscrizione: %d\nUltimo anno pagamento: %d\nQuota versata: %d\nCodice allenatore: %d\n", insiemeSoci[i].nome, insiemeSoci[i].cognome, insiemeSoci[i].luogoNascita, insiemeSoci[i].dataNascita, insiemeSoci[i].indirizzo, insiemeSoci[i].numeroTessera, insiemeSoci[i].annoIscrizione, insiemeSoci[i].ultimoAnnoPagamento, insiemeSoci[i].quotaVersata, insiemeSoci[i].codiceAllenatore);
+        }
+    }
+}
+
 // Cesare de Cal: Funzione main
 void mostraMenuAllenatori(struct Allenatore insiemeAllenatori[]) {
     printf("---------------------------------------------------------------------------\n");
@@ -142,7 +147,7 @@ void mostraMenuAllenatori(struct Allenatore insiemeAllenatori[]) {
     int scelta = acquisisciNumeroCompresoTraValori(1, 4);
     switch (scelta) {
         case 1:
-            inserireNuovoAllenatore(insiemeAllenatori);
+            inserisciNuovoAllenatore(insiemeAllenatori);
             break;
         case 2:
             break;
@@ -153,16 +158,24 @@ void mostraMenuAllenatori(struct Allenatore insiemeAllenatori[]) {
     }
 }
 
-// Paolo Valeri: Modifica Dati Soci
-int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[], char nome[], char cognome[]) {
-    int i;
-    for (i = 0; i < numeroMassimoSoci; i++) {
-        if (strcmp(nome, insiemeSoci[i].nome) && strcmp(cognome, insiemeSoci[i].cognome)) {
-            return i;
+// Elis Belletta: Anno soci
+void individuaSociDatoAnnoIscrizione(struct Socio insiemeSoci[]) {
+    printf("Inserisci l'anno d'iscrizione per cercare i soci: ");
+    int annoInserito = acquisisciNumeroCompresoTraValori(0, 10000);
+    int i, trovatoAlmenoUnSocio = 0;
+    for(i = 0; i < numeroMassimoSoci; i++) {
+        if (insiemeSoci[i].annoIscrizione == annoInserito) {
+            printf("Ho trovato un socio con nome %s e cognome %s che si e' iscritto nell'anno %d.\n", insiemeSoci[i].nome, insiemeSoci[i].cognome, insiemeSoci[i].annoIscrizione);
+            trovatoAlmenoUnSocio = 1;
         }
     }
-    return -1;
+    if (!trovatoAlmenoUnSocio) {
+        printf("Non ho trovato soci iscritti nell'anno %d.\n", annoInserito);
+    }
 }
+
+// Gianluca Tesi: Eliminazione socio
+// mancante
 
 void modificareDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
     char nome[100], cognome[100];
@@ -230,18 +243,8 @@ void modificareDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
     }
 }
 
-// Paolo Valeri: Inserimento socio
-int trovaPosizioneArraySenzaSocio(struct Socio insiemeSoci[]) {
-    int i;
-    for (i = 0; i < numeroMassimoSoci; i++) {
-        if (insiemeSoci[i].codiceAllenatore == -1) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-void inserireNuovoSocio(struct Socio insiemeSoci[]) {
+// Elis Belletta: Inserimento socio
+void inserisciNuovoSocio(struct Socio insiemeSoci[]) {
     int i = trovaPosizioneArraySenzaSocio(insiemeSoci);
     if (i != -1) {
         printf("Inserisci nome: ");
@@ -268,15 +271,6 @@ void inserireNuovoSocio(struct Socio insiemeSoci[]) {
     }
 }
 
-void visualizzaDatiSoci(struct Socio insiemeSoci[]) {
-    int i;
-    for (i = 0; i < numeroMassimoSoci; i++) {
-        if (insiemeSoci[i].codiceAllenatore != -1) {
-            printf("Nome: %s\nCognome: %s\nLuogo di nascita: %s\nData di nascita: %s\nIndirizzo: %s\nNumero tessera: %d\nAnno iscrizione: %d\nUltimo anno pagamento: %d\nQuota versata: %d\nCodice allenatore: %d\n", insiemeSoci[i].nome, insiemeSoci[i].cognome, insiemeSoci[i].luogoNascita, insiemeSoci[i].dataNascita, insiemeSoci[i].indirizzo, insiemeSoci[i].numeroTessera, insiemeSoci[i].annoIscrizione, insiemeSoci[i].ultimoAnnoPagamento, insiemeSoci[i].quotaVersata, insiemeSoci[i].codiceAllenatore);
-        }
-    }
-}
-
 // Cesare de Cal: Gestione soci
 void mostraMenuSoci(struct Socio insiemeSoci[]) {
     printf("-------------------------------------------------------------------------\n");
@@ -284,12 +278,13 @@ void mostraMenuSoci(struct Socio insiemeSoci[]) {
     printf("2. Modificare i dati di un socio gia' presente inseriti nome e cognome\n");
     printf("3. Eliminare un socio inseriti nome e cognome\n");
     printf("4. Visualizzare dati di tutti i soci\n");
+    printf("5. Individuare soci con un preciso anno di iscrizione\n");
     printf("-------------------------------------------------------------------------\n");
     printf("Seleziona opzione menu: ");
-    int scelta = acquisisciNumeroCompresoTraValori(1, 4);
+    int scelta = acquisisciNumeroCompresoTraValori(1, 5);
     switch (scelta) {
         case 1:
-            inserireNuovoSocio(insiemeSoci);
+            inserisciNuovoSocio(insiemeSoci);
             break;
         case 2:
             modificareDatiSocioConNomeCognome(insiemeSoci);
@@ -298,6 +293,9 @@ void mostraMenuSoci(struct Socio insiemeSoci[]) {
             break;
         case 4:
             visualizzaDatiSoci(insiemeSoci);
+            break;
+        case 5:
+            individuaSociDatoAnnoIscrizione(insiemeSoci);
             break;
         default:
             break;
