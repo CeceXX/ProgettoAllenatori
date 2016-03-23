@@ -316,14 +316,21 @@ void salvaModificheSuFile(struct Socio insiemeSoci[], FILE *fileTesto) {
     fprintf(fileTesto, "");
 }
 
-// Elis Belletta: gestione file
-void inizializzaFile(FILE *fileTesto) {
-    fileTesto = fopen("datiSoci.txt", "w+");
-    if (fileTesto == NULL) {
-        perror("Impossibiile aprire il file.\n");
-    }
-    
+void importaDatiSocioInMemoria(FILE *fileTesto, struct Socio insiemeSoci[]) {
     // Leggi dal file e importa i dati presenti nel file con fscanf
+    char datiSocio[1000];
+    fscanf(fileTesto, "%s", datiSocio);
+}
+
+// Elis Belletta: gestione file
+int inizializzaFile(FILE *fileTesto, struct Socio insiemeSoci[]) {
+    fileTesto = fopen("datiSoci.txt", "ab+");
+    if (fileTesto != NULL) {
+        return 0;
+    } else {
+        perror("Impossibiile aprire il file.\n");
+        return 1;
+    }
 }
 
 // Cesare de Cal: Menu principale
@@ -377,10 +384,12 @@ int main() {
     inizializzaInsiemeSoci(insiemeSoci);
     inizializzaInsiemeAllenatori(insiemeAllenatori);
     
-    FILE *fileTesto;
-    inizializzaFile(fileTesto);
+    FILE *fileTestoSoci;
+    if (inizializzaFile(fileTestoSoci, insiemeSoci)) {
+        importaDatiSocioInMemoria(fileTestoSoci, insiemeSoci);
+    }
     
     while (1) {
-        mostraMenuPrincipale(insiemeSoci, insiemeAllenatori, fileTesto);
+        mostraMenuPrincipale(insiemeSoci, insiemeAllenatori, fileTestoSoci);
     }
 }
