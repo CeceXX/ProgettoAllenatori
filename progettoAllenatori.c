@@ -55,11 +55,34 @@ int acquisisciNumeroCompresoTraValori(int inserimentoMinimoConsentito, int inser
 }
 
 // MARK: Gestione statistiche
+int ottieniAnnoCorrente() {
+    printf("Inserisci l'anno corrente: ");
+    return acquisisciNumeroCompresoTraValori(0, 1000);
+}
+
+// Cesare de Cal: soci paganti anno corrente e incasso
+void visualizzaSociPagantiAnnoCorrenteConIncasso(struct Socio insiemeSoci[]) {
+    int annoCorrente = ottieniAnnoCorrente(), i, almenoUnSocioTrovato = 0, incassoTotale = 0;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (insiemeSoci[i].codiceAllenatore != -1) {
+            if (insiemeSoci[i].ultimoAnnoPagamento == annoCorrente) {
+                printf("Il socio con nome %s e cognome %s ha pagato quest'anno.\n", insiemeSoci[i].nome, insiemeSoci[i].cognome);
+                almenoUnSocioTrovato = 1;
+            }
+            incassoTotale += insiemeSoci[i].quotaVersata;
+        }
+    }
+    
+    printf("L'incasso totale e' %d.\n", incassoTotale);
+    if (!almenoUnSocioTrovato) {
+        printf("Non ho trovato alcun socio.\n");
+    }
+}
 
 // Cesare de Cal: funzione main
 void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
     printf("--------------------------------------------------------------------------------------\n");
-    printf("1. Stampare quanti sono i soci che hanno pagato nell'anno corrente e l'incasso totale");
+    printf("1. Stampare quanti sono i soci che hanno pagato nell'anno corrente e l'incasso totale\n");
     printf("2. Stampare il socio che ha pagato la quota minore\n");
     printf("3. Stampare tutti i soci che hanno pagato nell'anno corrente\n");
     printf("4. Stampare tutti i soci che si sono iscritti in un dato anno inserito dall'utente\n");
@@ -71,6 +94,7 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
     int scelta = acquisisciNumeroCompresoTraValori(1, 7);
     switch (scelta) {
         case 1:
+            visualizzaSociPagantiAnnoCorrenteConIncasso(insiemeSoci);
             break;
         case 2:
             break;
