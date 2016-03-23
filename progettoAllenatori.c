@@ -14,6 +14,9 @@
 
 #include <stdio.h>
 #include <string.h>
+
+// MARK: Strutture e costanti
+
 #define numeroMassimoSoci 100
 #define numeroMassimoAllenatori 100
 
@@ -51,42 +54,18 @@ int acquisisciNumeroCompresoTraValori(int inserimentoMinimoConsentito, int inser
     return inserimento;
 }
 
-// Paolo Valeri: inserimento Allenatore
-int trovaPosizioneArraySenzaAllenatore(struct Allenatore insiemeAllenatori[]) {
-    int i;
-    for (i = 0; i < numeroMassimoAllenatori; i++) {
-        if (insiemeAllenatori[i].codiceAllenatore == -1) {
-            return i;
-        }
-    }
-    return -1;
-}
+// MARK: Gestione statistiche
 
-// Paolo Valeri: Inserimento allenatore
-void inserisciNuovoAllenatore(struct Allenatore insiemeAllenatori[]) {
-    int i = trovaPosizioneArraySenzaAllenatore(insiemeAllenatori);
-    if (i != -1) {
-        printf("Inserisci nome: ");
-        scanf("%s", insiemeAllenatori[i].nome);
-        printf("Inserisci cognome: ");
-        scanf("%s", insiemeAllenatori[i].cognome);
-        printf("Inserisci codice dell'allenatore: ");
-        scanf("%d", &insiemeAllenatori[i].codiceAllenatore);
-        printf("Inserisci paga oraria: ");
-        scanf("%d", &insiemeAllenatori[i].pagaOraria);
-        printf("Inserisci ore effettuate: ");
-        scanf("%d", &insiemeAllenatori[i].oreEffettuate);
-        insiemeAllenatori[i].codiceAllenatore = i;
-    } else {
-        printf("Non c'e' sufficiente spazio per poter inserire un nuovo Allenatore. Considera eliminare un Allenatore.\n");
-    }
-}
-
-// Cesare de Cal: Funzione main
+// Cesare de Cal: funzione main
 void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
     printf("--------------------------------------------------------------------------------------\n");
-    printf("1. Stampare quanti sono i soci che hanno pagato nell'anno corrente e l'incasso totale.");
-    printf("2. Stampare il socio che ha pagato la quota minore.");
+    printf("1. Stampare quanti sono i soci che hanno pagato nell'anno corrente e l'incasso totale");
+    printf("2. Stampare il socio che ha pagato la quota minore\n");
+    printf("3. Stampare tutti i soci che hanno pagato nell'anno corrente\n");
+    printf("4. Stampare tutti i soci che si sono iscritti in un dato anno inserito dall'utente\n");
+    printf("5. Inseriti nome e cognome di un allenatore visualizzare tutti i soci che segue\n");
+    printf("6. Stampare il nome e il cognome dell'allenatore che segue più soci\n");
+    printf("7. Stampare in ordine decrescente di retribuzione gli allenatori\n");
     printf("--------------------------------------------------------------------------------------\n");
     printf("Seleziona opzione menu: ");
     int scelta = acquisisciNumeroCompresoTraValori(1, 7);
@@ -104,23 +83,125 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
     }
 }
 
-// Paolo Valeri: Inserimento socio
-int trovaPosizioneArraySenzaSocio(struct Socio insiemeSoci[]) {
+// MARK: Gestione allenatori
+
+// Elis Belletta: gestione file
+void importaDatiSociInMemoria(FILE *fileTesto, struct Socio insiemeSoci[]) {
+    char datiSoci[1000];
+    fscanf(fileTesto, "%s", datiSoci);
+}
+
+// Elis Belletta: gestione file
+void importaDatiAllenatoriInMemoria(FILE *fileTesto, struct Allenatore insiemeAllenatori[]) {
+    char datiAllenatore[1000];
+    fscanf(fileTesto, "%s", datiAllenatore);
+}
+
+void visualizzaAllenatori(struct Allenatore insiemeAllenatori[]) {
+    int i, almenoUnAllenatoreTrovato = 0;
+    for (i = 0; i < numeroMassimoAllenatori; i++) {
+        if (insiemeAllenatori[i].codiceAllenatore != -1) {
+            printf("Nome: %s\nCognome: %s\nPaga oraria: %d\nOre effettuate: %d\nCodice allenatore: %d\n", insiemeAllenatori[i].nome, insiemeAllenatori[i].cognome, insiemeAllenatori[i].pagaOraria, insiemeAllenatori[i].oreEffettuate, insiemeAllenatori[i].codiceAllenatore);
+            almenoUnAllenatoreTrovato = 1;
+        }
+    }
+    if (!almenoUnAllenatoreTrovato) {
+        printf("Non ci sono allenatori nel database.\n");
+    }
+}
+
+// Cesare De Cal: Funzione supplementare per modificare e eliminare un allenatore
+int trovaPosizioneArrayAllenatoreConNomeCognome(struct Allenatore insiemeAllenatori[]) {
+    char nome[100], cognome[100];
+    printf("Inserisci nome: ");
+    scanf("%s", nome);
+    printf("Inserisci cognome: ");
+    scanf("%s", cognome);
+    
     int i;
-    for (i = 0; i < numeroMassimoSoci; i++) {
-        if (insiemeSoci[i].codiceAllenatore == -1) {
+    for (i = 0; i < numeroMassimoAllenatori; i++) {
+        if ((strcmp(nome, insiemeAllenatori[i].nome) && strcmp(cognome, insiemeAllenatori[i].cognome)) == 0) {
             return i;
         }
     }
     return -1;
 }
 
-void visualizzaSoci(struct Socio insiemeSoci[]) {
+void eliminaAllenatore(struct Allenatore insiemeAllenatori[]) {
+    int i = trovaPosizioneArrayAllenatoreConNomeCognome(insiemeAllenatori);
+    if (i != -1) {
+        insiemeAllenatori[i].codiceAllenatore = -1;
+    }
+}
+
+// Paolo Valeri: inserimento Allenatore
+int trovaPosizioneArraySenzaAllenatore(struct Allenatore insiemeAllenatori[]) {
     int i;
-    for (i = 0; i < numeroMassimoSoci; i++) {
-        if (insiemeSoci[i].codiceAllenatore != -1) {
-            printf("Nome: %s\nCognome: %s\nLuogo di nascita: %s\nData di nascita: %s\nIndirizzo: %s\nNumero tessera: %d\nAnno iscrizione: %d\nUltimo anno pagamento: %d\nQuota versata: %d\nCodice allenatore: %d\n", insiemeSoci[i].nome, insiemeSoci[i].cognome, insiemeSoci[i].luogoNascita, insiemeSoci[i].dataNascita, insiemeSoci[i].indirizzo, insiemeSoci[i].numeroTessera, insiemeSoci[i].annoIscrizione, insiemeSoci[i].ultimoAnnoPagamento, insiemeSoci[i].quotaVersata, insiemeSoci[i].codiceAllenatore);
+    for (i = 0; i < numeroMassimoAllenatori; i++) {
+        if (insiemeAllenatori[i].codiceAllenatore == -1) {
+            return i;
         }
+    }
+    return -1;
+}
+
+void modificaAllenatore(struct Allenatore insiemeAllenatori[]) {
+    int i = trovaPosizioneArraySenzaAllenatore(insiemeAllenatori);
+    if (i != -1) {
+        int scelta;
+        do {
+            printf("---------------------------------------------------------------------------\n");
+            printf("1. Nome\n");
+            printf("2. Cognome\n");
+            printf("3. Paga oraria\n");
+            printf("4. Ore effettuate\n");
+            printf("---------------------------------------------------------------------------\n");
+            printf("Inserisci il numero dell'opzione vuoi modificare oppure termina digitando 5: ");
+            scelta = acquisisciNumeroCompresoTraValori(1, 5);
+            switch (scelta) {
+                case 1:
+                    printf("Il nome attuale e' %s. Inserisci il nuovo nome: ", insiemeAllenatori[i].nome);
+                    scanf("%s", insiemeAllenatori[i].nome);
+                    break;
+                case 2:
+                    printf("Il cognome attuale e' %s. Inserisci il nuovo cognome: ", insiemeAllenatori[i].cognome);
+                    scanf("%s", insiemeAllenatori[i].cognome);
+                    break;
+                case 3:
+                    printf("Inserisci la paga oraria: ");
+                    scanf("%d", &insiemeAllenatori[i].pagaOraria);
+                    break;
+                case 4:
+                    printf("Inserisci le ore effettuate: ");
+                    scanf("%d", &insiemeAllenatori[i].oreEffettuate);
+                    printf("Inserisci indirizzo: ");
+                    break;
+                default:
+                    break;
+            }
+        } while (scelta != 5);
+    } else {
+        printf("Non ho trovato l'allenatore con il nome e cognome che hai inserito.\n");
+    }
+}
+
+// Cesare de Cal: inserimento allenatore
+void inserisciAllenatore(struct Allenatore insiemeAllenatori[]) {
+    int i = trovaPosizioneArraySenzaAllenatore(insiemeAllenatori);
+    if (i != -1) {
+        printf("Inserisci nome: ");
+        scanf("%s", insiemeAllenatori[i].nome);
+        printf("Inserisci cognome: ");
+        scanf("%s", insiemeAllenatori[i].cognome);
+        printf("Inserisci codice dell'allenatore: ");
+        scanf("%d", &insiemeAllenatori[i].codiceAllenatore);
+        printf("Inserisci paga oraria: ");
+        scanf("%d", &insiemeAllenatori[i].pagaOraria);
+        printf("Inserisci ore effettuate: ");
+        scanf("%d", &insiemeAllenatori[i].oreEffettuate);
+        insiemeAllenatori[i].codiceAllenatore = i;
+    } else {
+        printf("Non c'e' sufficiente spazio per poter inserire un nuovo allenatore. Considera eliminarne uno.\n");
     }
 }
 
@@ -131,20 +212,44 @@ void mostraMenuAllenatori(struct Allenatore insiemeAllenatori[]) {
     printf("2. Modificare i dati di un allenatore già presente inseriti nome e cognome\n");
     printf("3. Eliminare un allenatore inseriti nome e cognome\n");
     printf("4. Visualizzare i dati di tutti gli allenatori\n");
+    printf("5. Torna indietro\n");
     printf("---------------------------------------------------------------------------\n");
     printf("Seleziona un'opzione del menu: ");
     int scelta = acquisisciNumeroCompresoTraValori(1, 4);
     switch (scelta) {
         case 1:
-            inserisciNuovoAllenatore(insiemeAllenatori);
+            inserisciAllenatore(insiemeAllenatori);
             break;
         case 2:
+            modificaAllenatore(insiemeAllenatori);
             break;
         case 3:
+            eliminaAllenatore(insiemeAllenatori);
             break;
+        case 4:
+            visualizzaAllenatori(insiemeAllenatori);
         default:
             break;
     }
+}
+
+// MARK: Gestione soci
+
+// Elis Belletta: gestione file
+void salvaDatiSociSuFile(struct Socio insiemeSoci[], FILE *fileTesto) {
+    fprintf(fileTesto, "");
+    fclose(fileTesto);
+}
+
+// Paolo Valeri: inserimento socio
+int trovaPosizioneArraySenzaSocio(struct Socio insiemeSoci[]) {
+    int i;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (insiemeSoci[i].codiceAllenatore == -1) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 // Elis Belletta: Anno soci
@@ -160,6 +265,20 @@ void visualizzaSociDatoAnnoInscrizione(struct Socio insiemeSoci[]) {
     }
     if (!trovatoAlmenoUnSocio) {
         printf("Non ho trovato soci iscritti nell'anno %d.\n", annoInserito);
+    }
+}
+
+// Elis Belletta: visualizzazione socio
+void visualizzaSoci(struct Socio insiemeSoci[]) {
+    int i, almenoUnSocioTrovato = 0;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (insiemeSoci[i].codiceAllenatore != -1) {
+            printf("Nome: %s\nCognome: %s\nLuogo di nascita: %s\nData di nascita: %s\nIndirizzo: %s\nNumero tessera: %d\nAnno iscrizione: %d\nUltimo anno pagamento: %d\nQuota versata: %d\nCodice allenatore: %d\n", insiemeSoci[i].nome, insiemeSoci[i].cognome, insiemeSoci[i].luogoNascita, insiemeSoci[i].dataNascita, insiemeSoci[i].indirizzo, insiemeSoci[i].numeroTessera, insiemeSoci[i].annoIscrizione, insiemeSoci[i].ultimoAnnoPagamento, insiemeSoci[i].quotaVersata, insiemeSoci[i].codiceAllenatore);
+            almenoUnSocioTrovato = 1;
+        }
+    }
+    if (!almenoUnSocioTrovato) {
+        printf("Non ci sono soci nel database.\n");
     }
 }
 
@@ -180,21 +299,20 @@ int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[]) {
     return -1;
 }
 
-// Gianluca Tesi: Eliminazione socio
+// Gianluca Tesi: eliminazione socio
 void eliminaSocio(struct Socio insiemeSoci[]) {
     int i = trovaPosizioneArraySocioConNomeCognome(insiemeSoci);
     if (i != -1) {
         insiemeSoci[i].codiceAllenatore = -1;
     } else {
-        printf("Non ho trovato soci da eliminare.\n");
+        printf("Non ho trovato soci con il nome e cognome che hai inserito.\n");
     }
 }
 
-// Paolo Valeri: Modifica Dati Soci
+// Paolo Valeri: modifica socio
 void modificaSocio(struct Socio insiemeSoci[]) {
     int i = trovaPosizioneArraySocioConNomeCognome(insiemeSoci);
     if (i != -1) {
-        printf("ho trovato un socio con quel nome e cognome alla posizione %d.\n", i);
         int scelta;
         do {
             printf("---------------------------------------------------------------------------\n");
@@ -246,12 +364,12 @@ void modificaSocio(struct Socio insiemeSoci[]) {
             }
         } while (scelta != 10);
     } else {
-        //printf("Non ho trovato il socio con nome %s e cognome %s.\n", nome, cognome);
+        printf("Non ho trovato soci con il nome e cognome che hai inserito.\n");
     }
 }
 
-// Elis Belletta: Inserimento socio
-void inserisciNuovoSocio(struct Socio insiemeSoci[]) {
+// Elis Belletta: inserimento socio
+void inserisciSocio(struct Socio insiemeSoci[]) {
     int i = trovaPosizioneArraySenzaSocio(insiemeSoci);
     if (i != -1) {
         printf("Inserisci nome: ");
@@ -286,12 +404,13 @@ void mostraMenuSoci(struct Socio insiemeSoci[]) {
     printf("3. Eliminare un socio inseriti nome e cognome\n");
     printf("4. Visualizzare dati di tutti i soci\n");
     printf("5. Individuare soci con un preciso anno di iscrizione\n");
+    printf("6. Torna indietro\n");
     printf("-------------------------------------------------------------------------\n");
     printf("Seleziona opzione menu: ");
-    int scelta = acquisisciNumeroCompresoTraValori(1, 5);
+    int scelta = acquisisciNumeroCompresoTraValori(1, 6);
     switch (scelta) {
         case 1:
-            inserisciNuovoSocio(insiemeSoci);
+            inserisciSocio(insiemeSoci);
             break;
         case 2:
             modificaSocio(insiemeSoci);
@@ -310,31 +429,10 @@ void mostraMenuSoci(struct Socio insiemeSoci[]) {
     }
 }
 
-// Elis Belletta: gestione file
-void salvaModificheSuFile(struct Socio insiemeSoci[], FILE *fileTesto) {
-    fclose(fileTesto);
-    fprintf(fileTesto, "");
-}
-
-void importaDatiSocioInMemoria(FILE *fileTesto, struct Socio insiemeSoci[]) {
-    // Leggi dal file e importa i dati presenti nel file con fscanf
-    char datiSocio[1000];
-    fscanf(fileTesto, "%s", datiSocio);
-}
-
-// Elis Belletta: gestione file
-int inizializzaFile(FILE *fileTesto, struct Socio insiemeSoci[]) {
-    fileTesto = fopen("datiSoci.txt", "ab+");
-    if (fileTesto != NULL) {
-        return 0;
-    } else {
-        perror("Impossibiile aprire il file.\n");
-        return 1;
-    }
-}
+// MARK: Inizializzazione programma
 
 // Cesare de Cal: Menu principale
-void mostraMenuPrincipale(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[], FILE *fileTesto) {
+void mostraMenuPrincipale(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[], FILE *fileTestoSoci, FILE *fileTestoAllenatori) {
     printf("----------------------------\n");
     printf("1. Gestire i soci\n");
     printf("2. Gestire gli allenatori\n");
@@ -354,10 +452,32 @@ void mostraMenuPrincipale(struct Socio insiemeSoci[], struct Allenatore insiemeA
             mostraMenuStatistiche(insiemeSoci, insiemeAllenatori);
             break;
         case 4:
-            salvaModificheSuFile(insiemeSoci, fileTesto);
+            salvaDatiSociSuFile(insiemeSoci, fileTestoSoci);
             break;
         default:
             break;
+    }
+}
+
+// Elis Belletta: gestione file
+int inizializzaFileAllenatori(FILE *fileTestoAllenatori) {
+    fileTestoAllenatori = fopen("datiAllenatori.txt", "ab+");
+    if (fileTestoAllenatori != NULL) {
+        return 0;
+    } else {
+        perror("Impossibiile aprire il file allenatori.\n");
+        return 1;
+    }
+}
+
+// Elis Belletta: gestione file
+int inizializzaFileSoci(FILE *fileTestoSoci) {
+    fileTestoSoci = fopen("datiSoci.txt", "ab+");
+    if (fileTestoSoci != NULL) {
+        return 0;
+    } else {
+        perror("Impossibiile aprire il file soci.\n");
+        return 1;
     }
 }
 
@@ -385,11 +505,15 @@ int main() {
     inizializzaInsiemeAllenatori(insiemeAllenatori);
     
     FILE *fileTestoSoci;
-    if (inizializzaFile(fileTestoSoci, insiemeSoci)) {
-        importaDatiSocioInMemoria(fileTestoSoci, insiemeSoci);
+    FILE *fileTestoAllenatori;
+    if (inizializzaFileSoci(fileTestoSoci)) {
+        importaDatiSociInMemoria(fileTestoSoci, insiemeSoci);
+    }
+    if (inizializzaFileAllenatori(fileTestoAllenatori)) {
+        importaDatiAllenatoriInMemoria(fileTestoAllenatori, insiemeAllenatori);
     }
     
     while (1) {
-        mostraMenuPrincipale(insiemeSoci, insiemeAllenatori, fileTestoSoci);
+        mostraMenuPrincipale(insiemeSoci, insiemeAllenatori, fileTestoSoci, fileTestoAllenatori);
     }
 }
