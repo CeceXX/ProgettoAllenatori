@@ -17,17 +17,7 @@
 #define numeroMassimoSoci 100
 #define numeroMassimoAllenatori 100
 
-int acquisisciNumeroCompresoTraValori(int inserimentoMinimoConsentito, int inserimentoMassimoConsentito) {
-    int inserimento;
-    scanf("%d", &inserimento);
-    while ((inserimento < inserimentoMinimoConsentito) || (inserimento > inserimentoMassimoConsentito)) {
-        printf("'%d' non e' un inserimento valido. Inserisci un valore compreso tra %d e %d: ", inserimento, inserimentoMinimoConsentito, inserimentoMassimoConsentito);
-        scanf("%d", &inserimento);
-    }
-    return inserimento;
-}
-
-// Gianluca Tesi: Creazione struct Soci
+// Gianluca Tesi: creazione struct Soci
 struct Socio {
     char nome[80];
     char cognome[80];
@@ -41,7 +31,7 @@ struct Socio {
     int codiceAllenatore;
 };
 
-// Paolo Valeri: Creazione struct Allenatori
+// Paolo Valeri: creazione struct Allenatori
 struct Allenatore {
     char cognome[80];
     char nome[80];
@@ -50,7 +40,18 @@ struct Allenatore {
     int oreEffettuate;
 };
 
-// Paolo Valeri: Inserimento Allenatore
+// Cesare de Cal: funzione extra che facilita l'acquisizione di interi
+int acquisisciNumeroCompresoTraValori(int inserimentoMinimoConsentito, int inserimentoMassimoConsentito) {
+    int inserimento;
+    scanf("%d", &inserimento);
+    while ((inserimento < inserimentoMinimoConsentito) || (inserimento > inserimentoMassimoConsentito)) {
+        printf("'%d' non e' un inserimento valido. Inserisci un valore compreso tra %d e %d: ", inserimento, inserimentoMinimoConsentito, inserimentoMassimoConsentito);
+        scanf("%d", &inserimento);
+    }
+    return inserimento;
+}
+
+// Paolo Valeri: inserimento Allenatore
 int trovaPosizioneArraySenzaAllenatore(struct Allenatore insiemeAllenatori[]) {
     int i;
     for (i = 0; i < numeroMassimoAllenatori; i++) {
@@ -114,7 +115,7 @@ int trovaPosizioneArraySenzaSocio(struct Socio insiemeSoci[]) {
     return -1;
 }
 
-void visualizzaDatiSoci(struct Socio insiemeSoci[]) {
+void visualizzaSoci(struct Socio insiemeSoci[]) {
     int i;
     for (i = 0; i < numeroMassimoSoci; i++) {
         if (insiemeSoci[i].codiceAllenatore != -1) {
@@ -147,7 +148,7 @@ void mostraMenuAllenatori(struct Allenatore insiemeAllenatori[]) {
 }
 
 // Elis Belletta: Anno soci
-void individuaSociDatoAnnoIscrizione(struct Socio insiemeSoci[]) {
+void visualizzaSociDatoAnnoInscrizione(struct Socio insiemeSoci[]) {
     printf("Inserisci l'anno d'iscrizione per cercare i soci: ");
     int annoInserito = acquisisciNumeroCompresoTraValori(0, 10000);
     int i, trovatoAlmenoUnSocio = 0;
@@ -299,14 +300,19 @@ void mostraMenuSoci(struct Socio insiemeSoci[]) {
             eliminaSocio(insiemeSoci);
             break;
         case 4:
-            visualizzaDatiSoci(insiemeSoci);
+            visualizzaSoci(insiemeSoci);
             break;
         case 5:
-            individuaSociDatoAnnoIscrizione(insiemeSoci);
+            visualizzaSociDatoAnnoInscrizione(insiemeSoci);
             break;
         default:
             break;
     }
+}
+
+// Elis Belletta: gestione file
+void salvaModificheSuFile(FILE *fileTesto) {
+    fclose(fileTesto);
 }
 
 // Cesare de Cal: Menu principale
@@ -315,9 +321,10 @@ void mostraMenuPrincipale(struct Socio insiemeSoci[], struct Allenatore insiemeA
     printf("1. Gestire i soci\n");
     printf("2. Gestire gli allenatori\n");
     printf("3. Mostrare le statistiche\n");
+    printf("4. Salva modifiche su file\n");
     printf("----------------------------\n");
     printf("Seleziona un'opzione del menu: ");
-    int scelta = acquisisciNumeroCompresoTraValori(1, 3);
+    int scelta = acquisisciNumeroCompresoTraValori(1, 4);
     switch (scelta) {
         case 1:
             mostraMenuSoci(insiemeSoci);
@@ -328,8 +335,28 @@ void mostraMenuPrincipale(struct Socio insiemeSoci[], struct Allenatore insiemeA
         case 3:
             mostraMenuStatistiche(insiemeSoci, insiemeAllenatori);
             break;
+        case 4:
+            break;
         default:
             break;
+    }
+}
+
+// Elis Belletta: gestione file
+void inizializzaFile(FILE *fileTesto) {
+    fileTesto = fopen("datiSoci.txt", "r");
+    if (fileTesto == NULL) {
+        printf("Impossibiile aprire il file.\n");
+    }
+    
+    // Leggi dal file e importa i dati presenti nel file con fscanf
+}
+
+// Cesare de Cal: Inizializzazione insieme allenatori
+void inizializzaInsiemeAllenatori(struct Allenatore insiemeAllenatori[]) {
+    int i;
+    for (i = 0; i < numeroMassimoAllenatori; i++) {
+        insiemeAllenatori[i].codiceAllenatore = -1;
     }
 }
 
@@ -341,20 +368,15 @@ void inizializzaInsiemeSoci(struct Socio insiemeSoci[]) {
     }
 }
 
-// Cesare de Cal: Inizializzazione insieme allenatori
-void inizializzaInsiemeAllenatori(struct Allenatore insiemeAllenatori[]) {
-    int i;
-    for (i = 0; i < numeroMassimoAllenatori; i++) {
-        insiemeAllenatori[i].codiceAllenatore = -1;
-    }
-}
-
 // Cesare de Cal: Funzione main
 int main() {
     struct Socio insiemeSoci[numeroMassimoSoci];
     struct Allenatore insiemeAllenatori[numeroMassimoAllenatori];
     inizializzaInsiemeSoci(insiemeSoci);
     inizializzaInsiemeAllenatori(insiemeAllenatori);
+    
+    FILE *fileTesto;
+    inizializzaFile(fileTesto);
     
     while (1) {
         mostraMenuPrincipale(insiemeSoci, insiemeAllenatori);
