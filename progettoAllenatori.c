@@ -169,14 +169,14 @@ void individuaSociDatoAnnoIscrizione(struct Socio insiemeSoci[]) {
 int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[], char nome[], char cognome[]) {
     int i;
     for (i = 0; i < numeroMassimoSoci; i++) {
-        if (strcmp(nome, insiemeSoci[i].nome) && strcmp(cognome, insiemeSoci[i].cognome)) {
+        if ((strcmp(nome, insiemeSoci[i].nome) && strcmp(cognome, insiemeSoci[i].cognome)) == 0) {
             return i;
         }
     }
     return -1;
 }
 
-void modificareDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
+void modificaDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
     char nome[100], cognome[100];
     printf("Inserisci nome: ");
     scanf("%s", nome);
@@ -198,17 +198,16 @@ void modificareDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
             printf("7. Anno di iscrizione\n");
             printf("8. Ultimo anno di pagamento\n");
             printf("9. Quota versata\n");
-            printf("10. Codice allenatore\n");
             printf("---------------------------------------------------------------------------\n");
-            printf("Inserisci il numero dell'opzione vuoi modificare oppure termina digitando 11: ");
-            scelta = acquisisciNumeroCompresoTraValori(1, 11);
+            printf("Inserisci il numero dell'opzione vuoi modificare oppure termina digitando 10: ");
+            scelta = acquisisciNumeroCompresoTraValori(1, 10);
             switch (scelta) {
                 case 1:
-                    printf("Inserisci nome: ");
+                    printf("Il nome attuale e' %s. Inserisci il nuovo nome: ", insiemeSoci[i].nome);
                     scanf("%s", insiemeSoci[i].nome);
                     break;
                 case 2:
-                    printf("Inserisci cognome: ");
+                    printf("Il cognome attuale e' %s. Inserisci il nuovo cognome: ", insiemeSoci[i].cognome);
                     scanf("%s", insiemeSoci[i].cognome);
                     break;
                 case 3:
@@ -236,7 +235,7 @@ void modificareDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
                 default:
                     break;
             }
-        } while (scelta != 11);
+        } while (scelta != 10);
     } else {
         printf("Non ho trovato il socio con nome %s e cognome %s.\n", nome, cognome);
     }
@@ -286,7 +285,7 @@ void mostraMenuSoci(struct Socio insiemeSoci[]) {
             inserisciNuovoSocio(insiemeSoci);
             break;
         case 2:
-            modificareDatiSocioConNomeCognome(insiemeSoci);
+            modificaDatiSocioConNomeCognome(insiemeSoci);
             break;
         case 3:
             break;
