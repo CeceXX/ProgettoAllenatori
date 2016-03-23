@@ -162,11 +162,14 @@ void individuaSociDatoAnnoIscrizione(struct Socio insiemeSoci[]) {
     }
 }
 
-// Gianluca Tesi: Eliminazione socio
-// mancante
-
-// Paolo Valeri: Modifica Dati Soci
-int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[], char nome[], char cognome[]) {
+// Cesare De Cal: Funzione supplementare per modificare e eliminare un socio
+int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[]) {
+    char nome[100], cognome[100];
+    printf("Inserisci nome: ");
+    scanf("%s", nome);
+    printf("Inserisci cognome: ");
+    scanf("%s", cognome);
+    
     int i;
     for (i = 0; i < numeroMassimoSoci; i++) {
         if ((strcmp(nome, insiemeSoci[i].nome) && strcmp(cognome, insiemeSoci[i].cognome)) == 0) {
@@ -176,14 +179,19 @@ int trovaPosizioneArraySocioConNomeCognome(struct Socio insiemeSoci[], char nome
     return -1;
 }
 
-void modificaDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
-    char nome[100], cognome[100];
-    printf("Inserisci nome: ");
-    scanf("%s", nome);
-    printf("Inserisci cognome: ");
-    scanf("%s", cognome);
-    int i = trovaPosizioneArraySocioConNomeCognome(insiemeSoci, nome, cognome);
-    
+// Gianluca Tesi: Eliminazione socio
+void eliminaSocio(struct Socio insiemeSoci[]) {
+    int i = trovaPosizioneArraySocioConNomeCognome(insiemeSoci);
+    if (i != -1) {
+        insiemeSoci[i].codiceAllenatore = -1;
+    } else {
+        printf("Non ho trovato soci da eliminare.\n");
+    }
+}
+
+// Paolo Valeri: Modifica Dati Soci
+void modificaSocio(struct Socio insiemeSoci[]) {
+    int i = trovaPosizioneArraySocioConNomeCognome(insiemeSoci);
     if (i != -1) {
         printf("ho trovato un socio con quel nome e cognome alla posizione %d.\n", i);
         int scelta;
@@ -237,7 +245,7 @@ void modificaDatiSocioConNomeCognome(struct Socio insiemeSoci[]) {
             }
         } while (scelta != 10);
     } else {
-        printf("Non ho trovato il socio con nome %s e cognome %s.\n", nome, cognome);
+        //printf("Non ho trovato il socio con nome %s e cognome %s.\n", nome, cognome);
     }
 }
 
@@ -285,9 +293,10 @@ void mostraMenuSoci(struct Socio insiemeSoci[]) {
             inserisciNuovoSocio(insiemeSoci);
             break;
         case 2:
-            modificaDatiSocioConNomeCognome(insiemeSoci);
+            modificaSocio(insiemeSoci);
             break;
         case 3:
+            eliminaSocio(insiemeSoci);
             break;
         case 4:
             visualizzaDatiSoci(insiemeSoci);
