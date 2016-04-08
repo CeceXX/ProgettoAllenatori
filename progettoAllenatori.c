@@ -520,7 +520,7 @@ int inizializzaFileAllenatori(FILE *fileTestoAllenatori) {
 
 // Elis Belletta: gestione file
 int inizializzaFileSoci(FILE *fileTestoSoci) {
-    fileTestoSoci = fopen("datiSoci.txt", "ab+");
+    fileTestoSoci = fopen("datiSoci.txt", "ab");
     if (fileTestoSoci != NULL) {
         return 0;
     } else {
