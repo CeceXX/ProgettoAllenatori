@@ -79,6 +79,23 @@ void visualizzaSociPagantiAnnoCorrenteConIncasso(struct Socio insiemeSoci[]) {
     }
 }
 
+void determinaSocioConQuotaMinore(struct Socio insiemeSoci[]) {
+    int codiceSocioConQuotaMinore = -1, i, quotaMinore = 0;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (insiemeSoci[i].codiceAllenatore != -1) {
+            if (insiemeSoci[i].quotaVersata >= quotaMinore) {
+                codiceSocioConQuotaMinore = insiemeSoci[i].codiceAllenatore;
+                quotaMinore = insiemeSoci[i].quotaVersata;
+            }
+        }
+    }
+    if (codiceSocioConQuotaMinore != -1) {
+        printf("Il socio con quota minore si chiama %s %s e ha codice %d", insiemeSoci[codiceSocioConQuotaMinore].nome, insiemeSoci[codiceSocioConQuotaMinore].cognome, insiemeSoci[codiceSocioConQuotaMinore].codiceAllenatore);
+    } else {
+        printf("Non ho trovato soci nel database.\n");
+    }
+}
+
 // Cesare de Cal: funzione main
 void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
     printf("--------------------------------------------------------------------------------------\n");
@@ -97,10 +114,17 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
             visualizzaSociPagantiAnnoCorrenteConIncasso(insiemeSoci);
             break;
         case 2:
+            determinaSocioConQuotaMinore(insiemeSoci);
             break;
         case 3:
             break;
         case 4:
+            break;
+        case 5:
+            break;
+        case 6:
+            break;
+        case 7:
             break;
         default:
             break;
