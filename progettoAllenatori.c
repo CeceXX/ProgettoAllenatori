@@ -56,29 +56,52 @@ int acquisisciNumeroCompresoTraValori(int inserimentoMinimoConsentito, int inser
 
 // MARK: Gestione statistiche
 int ottieniAnnoCorrente() {
-    printf("Inserisci l'anno corrente: ");
+    printf("Inserisci l'anno (corrente o un altro): ");
     return acquisisciNumeroCompresoTraValori(0, 1000);
 }
 
+void determinaIncassoTotaleSoci(struct Socio insiemeSoci[]) {
+    int i, incassoTotale = 0;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (insiemeSoci[i].codiceAllenatore != -1) {
+            incassoTotale += insiemeSoci[i].quotaVersata;
+        }
+    }
+    
+    printf("L'incasso totale e' %d.\n", incassoTotale);
+}
+
 // Cesare de Cal: soci paganti anno corrente e incasso
-void visualizzaSociPagantiAnnoCorrenteConIncasso(struct Socio insiemeSoci[]) {
-    int annoCorrente = ottieniAnnoCorrente(), i, almenoUnSocioTrovato = 0, incassoTotale = 0;
+void visualizzaSociPagantiAnnoCorrente(struct Socio insiemeSoci[]) {
+    int annoCorrente = ottieniAnnoCorrente(), i, almenoUnSocioTrovato = 0;
     for (i = 0; i < numeroMassimoSoci; i++) {
         if (insiemeSoci[i].codiceAllenatore != -1) {
             if (insiemeSoci[i].ultimoAnnoPagamento == annoCorrente) {
                 printf("Il socio con nome %s e cognome %s ha pagato quest'anno.\n", insiemeSoci[i].nome, insiemeSoci[i].cognome);
                 almenoUnSocioTrovato = 1;
             }
-            incassoTotale += insiemeSoci[i].quotaVersata;
         }
     }
     
-    printf("L'incasso totale e' %d.\n", incassoTotale);
     if (!almenoUnSocioTrovato) {
         printf("Non ho trovato alcun socio.\n");
     }
 }
 
+// Cesare de Cal
+void determinaSociInscrittiDeterminatoAnno(struct Socio insiemeSoci[]) {
+    int annoInserito = ottieniAnnoCorrente(), i;
+    for (i = 0; i < numeroMassimoSoci; i++) {
+        if (insiemeSoci[i].codiceAllenatore != -1) {
+            if (insiemeSoci[i].annoIscrizione == annoInserito) {
+                printf("Socio con nome %s %s si e' iscritto nell'anno %d.\n", insiemeSoci[i].nome, insiemeSoci[i].cognome, annoInserito);
+            }
+        }
+    }
+    
+}
+
+// Cesare de Cal
 void determinaSocioConQuotaMinore(struct Socio insiemeSoci[]) {
     int codiceSocioConQuotaMinore = -1, i, quotaMinore = 0;
     for (i = 0; i < numeroMassimoSoci; i++) {
@@ -90,11 +113,51 @@ void determinaSocioConQuotaMinore(struct Socio insiemeSoci[]) {
         }
     }
     if (codiceSocioConQuotaMinore != -1) {
-        printf("Il socio con quota minore si chiama %s %s e ha codice %d", insiemeSoci[codiceSocioConQuotaMinore].nome, insiemeSoci[codiceSocioConQuotaMinore].cognome, insiemeSoci[codiceSocioConQuotaMinore].codiceAllenatore);
+        printf("Il socio con quota minore si chiama %s %s e ha codice %d\n", insiemeSoci[codiceSocioConQuotaMinore].nome, insiemeSoci[codiceSocioConQuotaMinore].cognome, insiemeSoci[codiceSocioConQuotaMinore].codiceAllenatore);
     } else {
         printf("Non ho trovato soci nel database.\n");
     }
 }
+
+// Cesare de Cal
+void determinaSociSeguitiDaAllenatore(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
+    int i, p;
+    char nomeAllenatore[100], cognomeAllenatore[100];
+    printf("Inserisci nome allenatore: ");
+    scanf("%s", nomeAllenatore);
+    printf("Inserisci cognome allenatore: ");
+    scanf("%s", cognomeAllenatore);
+    
+    for (i = 0; i < numeroMassimoAllenatori; i++) {
+        if (insiemeAllenatori[i].codiceAllenatore != -1) {
+            if (strcpy(insiemeAllenatori[i].nome, nomeAllenatore) == 0 && strcpy(insiemeAllenatori[i].cognome, cognomeAllenatore)) {
+                for (p = 0; p < numeroMassimoSoci; p++) {
+                    if (insiemeSoci[p].codiceAllenatore != -1) {
+                        if (insiemeAllenatori[i].codiceAllenatore == insiemeSoci[p].codiceAllenatore) {
+                            printf("Allenatore %s %s segue socio %s %s.\n", insiemeAllenatori[i].nome, insiemeAllenatori[i].cognome, insiemeSoci[p].nome, insiemeSoci[p].cognome);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//void determinaAllenatoreCheSeguePiuSoci(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
+//    int i, p, codiceAllenatoreCheSeguePiuSoci = -1, numeroMassimoSociSeguiti = 0;
+//    for (i = 0; i < numeroMassimoAllenatori; i++) {
+//        if (insiemeAllenatori[i].codiceAllenatore != -1) {
+//            for (p = 0; p < numeroMassimoSoci; p++) {
+//                if (insiemeSoci[p].codiceAllenatore != -1) {
+//                    if (insiemeAllenatori[i].codiceAllenatore == insiemeSoci[p].codiceAllenatore) {
+//                        
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    
+//}
 
 // Cesare de Cal: funzione main
 void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
@@ -111,16 +174,20 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
     int scelta = acquisisciNumeroCompresoTraValori(1, 7);
     switch (scelta) {
         case 1:
-            visualizzaSociPagantiAnnoCorrenteConIncasso(insiemeSoci);
+            visualizzaSociPagantiAnnoCorrente(insiemeSoci);
+            determinaIncassoTotaleSoci(insiemeSoci);
             break;
         case 2:
             determinaSocioConQuotaMinore(insiemeSoci);
             break;
         case 3:
+            visualizzaSociPagantiAnnoCorrente(insiemeSoci);
             break;
         case 4:
+            determinaSociInscrittiDeterminatoAnno(insiemeSoci);
             break;
         case 5:
+            determinaSociSeguitiDaAllenatore(insiemeSoci, insiemeAllenatori);
             break;
         case 6:
             break;
@@ -136,7 +203,12 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
 // Elis Belletta: gestione file
 void importaDatiSociInMemoria(FILE *fileTesto, struct Socio insiemeSoci[]) {
     char datiSoci[1000];
-    fscanf(fileTesto, "%s", datiSoci);
+    
+    //    while (fgets(datiSoci, sizeof(fgets), fileTesto)) {
+    //        printf("%s", datiSoci);
+    //    }
+    
+    fclose(fileTesto);
 }
 
 // Elis Belletta: gestione file
@@ -554,9 +626,12 @@ int main() {
     
     FILE *fileTestoSoci;
     FILE *fileTestoAllenatori;
-    if (inizializzaFileSoci(fileTestoSoci)) {
+    if (inizializzaFileSoci(fileTestoSoci) == 0) {
         importaDatiSociInMemoria(fileTestoSoci, insiemeSoci);
+    } else {
+        printf("Errore a inizializzare file!\n");
     }
+    
     if (inizializzaFileAllenatori(fileTestoAllenatori)) {
         importaDatiAllenatoriInMemoria(fileTestoAllenatori, insiemeAllenatori);
     }
