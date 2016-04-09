@@ -71,6 +71,10 @@ void determinaIncassoTotaleSoci(struct Socio insiemeSoci[]) {
     printf("L'incasso totale e' %d.\n", incassoTotale);
 }
 
+void stampaOrdineDecrescentePagaOrariaAllenatori(struct Allenatori insiemeAllenatori[]) {
+
+  }
+
 // Cesare de Cal: soci paganti anno corrente e incasso
 void visualizzaSociPagantiAnnoCorrente(struct Socio insiemeSoci[]) {
     int annoCorrente = ottieniAnnoCorrente(), i, almenoUnSocioTrovato = 0;
@@ -143,21 +147,30 @@ void determinaSociSeguitiDaAllenatore(struct Socio insiemeSoci[], struct Allenat
     }
 }
 
-//void determinaAllenatoreCheSeguePiuSoci(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
-//    int i, p, codiceAllenatoreCheSeguePiuSoci = -1, numeroMassimoSociSeguiti = 0;
-//    for (i = 0; i < numeroMassimoAllenatori; i++) {
-//        if (insiemeAllenatori[i].codiceAllenatore != -1) {
-//            for (p = 0; p < numeroMassimoSoci; p++) {
-//                if (insiemeSoci[p].codiceAllenatore != -1) {
-//                    if (insiemeAllenatori[i].codiceAllenatore == insiemeSoci[p].codiceAllenatore) {
-//                        
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    
-//}
+void determinaAllenatoreConPiuSoci(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
+	int i, p, codiceAllenatoreConPiuSoci = 0, c = 0, massimoNumeroSociSeguiti = 0;
+	for (i = 0; i < numeroMassimoAllenatori; i++) {
+		if (insiemeAllenatori[i].codiceAllenatore != -1) {
+			for (p = 0; p < numeroMassimoSoci; p++) {
+				if (insiemeSoci[p].codiceAllenatore != -1) {
+					if (insiemSoci[p].codiceAllenatore == insiemeAllenatori[i].codiceAllenatore) {
+						c++;
+					}
+				}
+			}
+			if (c >= numeroMassimoSociSeguiti) {
+				numeroMassimoSociSeguiti = c;
+				codiceAllenatoreConPiuSoci = insiemeAllenatori[i];
+			}
+		}
+	}
+	
+	if (codiceAllenatoreConPiuSoci != -1) {
+		printf("L'allenatore con piu' soci (%d) e' %s %s.\n", numeroMassimoSociSeguiti, insiemeAllenatori[codiceAllenatoreConPiuSoci].nome, insiemeAllenatori[codiceAllenatoreConPiuSoci].cognome);
+	} else {
+		printf("Non ho trovato allenatori con soci.\n")
+	}
+}
 
 // Cesare de Cal: funzione main
 void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
@@ -190,6 +203,7 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
             determinaSociSeguitiDaAllenatore(insiemeSoci, insiemeAllenatori);
             break;
         case 6:
+			  determinaAllenatoreConPiuSoci(insiemeSoci, insiemeAllenatori);
             break;
         case 7:
             break;
@@ -632,7 +646,7 @@ int main() {
         printf("Errore a inizializzare file!\n");
     }
     
-    if (inizializzaFileAllenatori(fileTestoAllenatori) == 0) {
+    if (inizializzaFileAllenatori(fileTestoAllenatori)) {
         importaDatiAllenatoriInMemoria(fileTestoAllenatori, insiemeAllenatori);
     }
     
