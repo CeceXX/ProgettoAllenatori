@@ -632,7 +632,7 @@ int main() {
         printf("Errore a inizializzare file!\n");
     }
     
-    if (inizializzaFileAllenatori(fileTestoAllenatori)) {
+    if (inizializzaFileAllenatori(fileTestoAllenatori) == 0) {
         importaDatiAllenatoriInMemoria(fileTestoAllenatori, insiemeAllenatori);
     }
     
