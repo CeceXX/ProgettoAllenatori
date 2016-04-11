@@ -143,21 +143,31 @@ void determinaSociSeguitiDaAllenatore(struct Socio insiemeSoci[], struct Allenat
     }
 }
 
-//void determinaAllenatoreCheSeguePiuSoci(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
-//    int i, p, codiceAllenatoreCheSeguePiuSoci = -1, numeroMassimoSociSeguiti = 0;
-//    for (i = 0; i < numeroMassimoAllenatori; i++) {
-//        if (insiemeAllenatori[i].codiceAllenatore != -1) {
-//            for (p = 0; p < numeroMassimoSoci; p++) {
-//                if (insiemeSoci[p].codiceAllenatore != -1) {
-//                    if (insiemeAllenatori[i].codiceAllenatore == insiemeSoci[p].codiceAllenatore) {
-//                        
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    
-//}
+void bubbleSort(int vettore[], int lunghezzaArray) {
+    int tmp;
+    for (int i = 0; i < lunghezzaArray-1; i++) {
+        if (vettore[i] > vettore[i+1]) {
+            tmp = vettore[i];
+            vettore[i] = vettore[i+1];
+            vettore[i+1] = tmp;
+        }
+    }
+}
+
+void stampaOrdineDecrescentePagaOrariaAllenatori(struct Allenatore insiemeAllenatori[]) {
+    int pagaOraria[numeroMassimoAllenatori];
+    int i, z = 0;
+    for (i = 0; i < numeroMassimoAllenatori; i++) {
+        if (insiemeAllenatori[i].codiceAllenatore != -1) {
+            pagaOraria[z] = insiemeAllenatori[i].pagaOraria;
+            z++;
+        }
+    }
+    bubbleSort(pagaOraria, numeroMassimoAllenatori);
+    for (i = numeroMassimoAllenatori; i < 0; i--) {
+        printf("La paga oraria e' %d\n.", pagaOraria[i]);
+    }
+}
 
 // Cesare de Cal: funzione main
 void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insiemeAllenatori[]) {
@@ -203,8 +213,8 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
 // Elis Belletta: gestione file
 void importaDatiSociInMemoria(FILE *fileTesto, struct Socio insiemeSoci[]) {
 	char datiSoci[1000];
-	fscanf(fileTesto, "%s", datiSoci);
-	fprintf(fileTesto, "%s", datiSoci);
+	//fscanf(fileTesto, "%s", datiSoci);
+	//fprintf(fileTesto, "%s", datiSoci);
 	
 	fclose(fileTesto);
 }
@@ -212,7 +222,7 @@ void importaDatiSociInMemoria(FILE *fileTesto, struct Socio insiemeSoci[]) {
 // Elis Belletta: gestione file
 void importaDatiAllenatoriInMemoria(FILE *fileTesto, struct Allenatore insiemeAllenatori[]) {
     char datiAllenatore[1000];
-    fscanf(fileTesto, "%s", datiAllenatore);
+    //fscanf(fileTesto, "%s", datiAllenatore);
 }
 
 void visualizzaAllenatori(struct Allenatore insiemeAllenatori[]) {
