@@ -55,11 +55,14 @@ int acquisisciNumeroCompresoTraValori(int inserimentoMinimoConsentito, int inser
 }
 
 // MARK: Gestione statistiche
+
+// Cesare de Cal
 int ottieniAnnoCorrente() {
     printf("Inserisci l'anno (corrente o un altro): ");
     return acquisisciNumeroCompresoTraValori(0, 1000);
 }
 
+// Cesare de Cal
 void determinaIncassoTotaleSoci(struct Socio insiemeSoci[]) {
     int i, incassoTotale = 0;
     for (i = 0; i < numeroMassimoSoci; i++) {
