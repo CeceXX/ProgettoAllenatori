@@ -241,7 +241,7 @@ void visualizzaAllenatori(struct Allenatore insiemeAllenatori[]) {
     }
 }
 
-// Cesare De Cal: Funzione supplementare per modificare e eliminare un allenatore
+// Elis Belletta: Funzione supplementare per modificare e eliminare un allenatore
 int trovaPosizioneArrayAllenatoreConNomeCognome(struct Allenatore insiemeAllenatori[]) {
     char nome[100], cognome[100];
     printf("Inserisci nome: ");
