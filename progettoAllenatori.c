@@ -216,16 +216,34 @@ void mostraMenuStatistiche(struct Socio insiemeSoci[], struct Allenatore insieme
 // Elis Belletta: gestione file
 void importaDatiSociInMemoria(FILE *fileTesto, struct Socio insiemeSoci[]) {
 	char datiSoci[1000];
-	//fscanf(fileTesto, "%s", datiSoci);
-	//fprintf(fileTesto, "%s", datiSoci);
-	
+	for(i=0;i<numeroMassimoSoci;i++){
+	 fprintf(*fileTestoSoci,"%s\n",insiemeSoci[i].nome);
+	 fprintf(*fileTestoSoci,"%s\n",insiemeSoci[i].cognome);
+	 fprintf(*fileTestoSoci,"%s\n",insiemeSoci[i].dataNascita);
+	 fprintf(*fileTestoSoci,"%s\n",insiemeSoci[i].indirizzo);
+	 fprintf(*fileTestoSoci,"%d\n",insiemeSoci[i].numeroTessera);
+	 fprintf(*fileTestoSoci,"%d\n",insiemeSoci[i].annoIscrizione);
+	 fprintf(*fileTestoSoci,"%d\n",insiemeSoci[i].ultimoAnnoPagamento);
+	 fprintf(*fileTestoSoci,"%d\n",insiemeSoci[i].quotaVersata);
+	 fprintf(*fileTestoSoci,"%d\n",insiemeSoci[i].codiciAllenatori);}}
 	fclose(fileTesto);
 }
 
 // Elis Belletta: gestione file
 void importaDatiAllenatoriInMemoria(FILE *fileTesto, struct Allenatore insiemeAllenatori[]) {
     char datiAllenatore[1000];
-    //fscanf(fileTesto, "%s", datiAllenatore);
+    for(i=0;i<numeroMassimoAllenatori;i++){
+	 fprintf(*fileTestoSoci,"%s\n",insiemeAllenatori[i].nome);
+	 fprintf(*fileTestoSoci,"%s\n",insiemeAllenatori[i].cognome);
+	 fprintf(*fileTestoSoci,"%d\n",insiemeAllenatori[i].codiceAllenatore);
+	 fprintf(*fileTestoSoci,"%s\n",insiemeAllenatori[i].pagaOraria);
+	 fprintf(*fileTestoSoci,"%d\n",insiemeAllenatori[i].oreEffettuate);}}
+	
+	char cognome[80];
+    char nome[80];
+    int codiceAllenatore;
+    int pagaOraria;
+    int oreEffettuate;
 }
 
 void visualizzaAllenatori(struct Allenatore insiemeAllenatori[]) {
